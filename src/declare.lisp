@@ -14,6 +14,7 @@
        (template:instantiate-templated-function make-vector* ,type)
        (template:instantiate-templated-function m+ ,type ,type)
        (template:instantiate-templated-function v+ ,type ,type)
+       (template:instantiate-templated-function m* ,type ,type)
        (template:instantiate-templated-function transpose ,type)
        ',type))
 

@@ -12,5 +12,6 @@
            #:vref)
   (:export #:m+
            #:v+)
+  (:export #:m*)
   (:export #:transpose)
   (:export #:define-matrix-type))

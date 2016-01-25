@@ -15,9 +15,15 @@
     :components ((:file "package")
                  (:file "construct" :depends-on ("package"))
                  (:file "mref" :depends-on ("package"))
+                 (:file "contagion" :depends-on ("package"))
                  (:file "add" :depends-on ("package"
                                            "construct"
-                                           "mref"))
+                                           "mref"
+                                           "contagion"))
+                 (:file "mul" :depends-on ("package"
+                                           "construct"
+                                           "mref"
+                                           "contagion"))
                  (:file "transpose" :depends-on ("package"
                                                  "construct"))
                  (:file "declare" :depends-on ("package"
@@ -38,5 +44,6 @@
     :components ((:file "package")
                  (:file "construct" :depends-on ("package"))
                  (:file "add" :depends-on ("package"))
+                 (:file "mul" :depends-on ("package"))
                  (:file "transpose" :depends-on ("package"))
                  (:file "run" :depends-on ("package"))))))
