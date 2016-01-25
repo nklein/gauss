@@ -1,0 +1,40 @@
+;;; src/mref.lisp
+
+(in-package #:gauss)
+
+(template:define-templated-function mref (type) (matrix row col)
+  `(policy-cond:with-expectations (> speed safety)
+       ((type unsigned-byte row)
+        (type unsigned-byte col)
+        (assertion (eql (array-element-type (mvals matrix)) ',type))
+        (assertion (< row (mrows matrix)))
+        (assertion (< col (mcols matrix))))
+     (the ,type (aref (mvals matrix)
+                      (+ (* (mrf matrix) row)
+                         (* (mcf matrix) col))))))
+
+(template:define-templated-function vref (type) (vector row)
+  `(policy-cond:with-expectations (> speed safety)
+       ((type unsigned-byte row)
+        (assertion (eql (array-element-type (mvals vector)) ',type))
+        (assertion (< row (mrows vector)))
+        (assertion (= 1 (mcols vector))))
+     (the ,type (aref (mvals vector) row))))
+
+(template:define-templated-function vtref (type) (vector col)
+  `(policy-cond:with-expectations (> speed safety)
+       ((type unsigned-byte col)
+        (assertion (eql (array-element-type (mvals vector)) ',type))
+        (assertion (< col (mcols vector)))
+        (assertion (= 1 (mrows vector))))
+     (the ,type (aref (mvals vector) col))))
+
+(defmethod print-object ((m matrix) stream)
+  (if *print-readably*
+      (call-next-method)
+      (print-unreadable-object (m stream :type t)
+        (loop :for row :below (mrows m)
+           :do (fresh-line stream)
+           :do (loop :with mtype := (mtype m)
+                  :for col :below (mcols m)
+                  :do (format stream "  ~A" (mref (list mtype) m row col)))))))
