@@ -11,15 +11,24 @@
   (rf 0 :type (integer 1 *) :read-only t)
   (vals 0 :read-only t))
 
-(defun copy-matrix (m)
-  (check-type m matrix)
-  (%matrix :rows (mrows m) :cols (mcols m)
-           :cf (mcf m) :rf (mrf m)
-           :vals (copy-seq (mvals m))))
-
 (defun mtype (m)
   (check-type m matrix)
   (array-element-type (mvals m)))
+
+(defun copy-matrix (m &optional (new-type (mtype m)))
+  (check-type m matrix)
+  (%matrix :rows (mrows m) :cols (mcols m)
+           :cf (mcf m) :rf (mrf m)
+           :vals (if (eql new-type (mtype m))
+                     (copy-seq (mvals m))
+                     (let* ((mvals (mvals m))
+                            (mvals (map 'list
+                                        (lambda (v)
+                                          (coerce v new-type))
+                                        mvals)))
+                       (make-array (length mvals)
+                                   :element-type new-type
+                                   :initial-contents mvals)))))
 
 (template:define-templated-function make-matrix (type) (rows cols vals)
   `(policy-cond:with-expectations (> speed safety)

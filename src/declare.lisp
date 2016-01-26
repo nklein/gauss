@@ -17,7 +17,7 @@
        (template:instantiate-templated-function v+ ,type ,type)
        (template:instantiate-templated-function m* ,type ,type)
        (template:instantiate-templated-function solve-by-gaussian-elimination
-                                                ,type ,type)
+                                                ,type)
        (template:instantiate-templated-function solve ,type ,type)
        ',type))
 
