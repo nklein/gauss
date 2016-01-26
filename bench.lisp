@@ -1,6 +1,13 @@
 (load "gauss.asd")
 (ql:quickload :gauss)
 
+(locally
+    (declare (optimize (speed 3) (safety 1)))
+  (in-package :gauss)
+  (gauss:define-matrix-type single-float))
+
+(in-package :cl-user)
+
 (template:define-templated-function make-random-matrix (type) (n)
   `(let ((vals (loop :repeat (* n n)
                   :collect (+ 0.1 (random (coerce 1.0 ',type))))))
@@ -32,8 +39,7 @@
            :do (,op '(,type ,type) ,a ,b))))))
 
 (bench gauss:m+ single-float 1000)
-#+not
-(bench gauss:m* single-float 1000)
+#+not (bench gauss:m* single-float 1000)
 
 (defmacro bench-solve (type &optional (iterations 10000))
   (let ((a (gensym "A"))
