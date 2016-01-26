@@ -4,7 +4,8 @@
 
 (declaim (inline mrows mcols mvals mtype))
 (defstruct (matrix (:conc-name "M")
-                   (:constructor %matrix))
+                   (:constructor %matrix)
+                   (:copier nil))
   (rows 0 :type (integer 1 *) :read-only t)
   (cols 0 :type (integer 1 *) :read-only t)
   (cf 0 :type (integer 1 *) :read-only t)
