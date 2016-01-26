@@ -1,5 +1,5 @@
 (load "gauss.asd")
-(ql:quickload :gauss)
+(ql:quickload '(:gauss :gauss-test))
 
 (locally
     (declare (optimize (speed 3) (safety 1)))
@@ -7,6 +7,8 @@
   (gauss:define-matrix-type single-float))
 
 (in-package :cl-user)
+
+(asdf:test-system :gauss)
 
 (template:define-templated-function make-random-matrix (type) (n)
   `(let ((vals (loop :repeat (* n n)
@@ -17,7 +19,7 @@
   `(let ((vals (loop :for r :below n
                   :appending (loop :with v := (coerce (/ r 10) ',type)
                                 :for c :below n
-                                :collecting (expt c v)))))
+                                :collecting (expt (1+ c) v)))))
      (gauss:make-matrix '(,type) n n vals)))
 
 (template:define-templated-function make-random-vector (type) (n)
