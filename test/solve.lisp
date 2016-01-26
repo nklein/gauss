@@ -66,4 +66,26 @@
            (b (gauss:make-vector* '(single-float) 1.0 2.0))
            (c (gauss:solve '(single-float single-float) a b)))
       (values (gauss:vref '(single-float) c 0)
-              (gauss:vref '(single-float) c 1)))))
+              (gauss:vref '(single-float) c 1))))
+
+  ;;  [ 1 1 1 1 ] [ 1 ]   [ 10 ]
+  ;;  [ 1 1 0 1 ] [ 2 ] = [  7 ]
+  ;;  [ 1 0 1 1 ] [ 3 ]   [  8 ]
+  ;;  [ 1 2 3 4 ] [ 4 ]   [ 30 ]
+
+  (nst:def-test solve-general-4-by-4 (:values (:equal 1.0)
+                                              (:equal 2.0)
+                                              (:equal 3.0)
+                                              (:equal 4.0))
+    (let* ((a (gauss:make-matrix* '(single-float)
+                                  4 4
+                                  1.0 1.0 1.0 1.0
+                                  1.0 1.0 0.0 1.0
+                                  1.0 0.0 1.0 1.0
+                                  1.0 2.0 3.0 4.0))
+           (b (gauss:make-vector* '(single-float) 10.0 7.0 8.0 30.0))
+           (c (gauss:solve '(single-float single-float) a b)))
+      (values (gauss:vref '(single-float) c 0)
+              (gauss:vref '(single-float) c 1)
+              (gauss:vref '(single-float) c 2)
+              (gauss:vref '(single-float) c 3)))))
