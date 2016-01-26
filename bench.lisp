@@ -3,7 +3,7 @@
 
 (template:define-templated-function make-random-matrix (type) (n)
   `(let ((vals (loop :repeat (* n n)
-                  :collect (random (coerce 1 ',type)))))
+                  :collect (random (coerce 0.01 ',type)))))
      (gauss:make-matrix '(,type) n n vals)))
 
 (template:instantiate-templated-function make-random-matrix single-float)
@@ -19,4 +19,4 @@
            :do (setf ,a (,op '(,type ,type) ,a ,b)))))))
 
 (bench gauss:m+ single-float 1000)
-(bench gauss:m+ double-float 1000)
+(bench gauss:m* single-float 1000)

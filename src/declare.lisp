@@ -12,10 +12,13 @@
        (template:instantiate-templated-function make-matrix* ,type)
        (template:instantiate-templated-function make-vector ,type)
        (template:instantiate-templated-function make-vector* ,type)
+       (template:instantiate-templated-function transpose ,type)
        (template:instantiate-templated-function m+ ,type ,type)
        (template:instantiate-templated-function v+ ,type ,type)
        (template:instantiate-templated-function m* ,type ,type)
-       (template:instantiate-templated-function transpose ,type)
+       (template:instantiate-templated-function solve-by-gaussian-elimination
+                                                ,type ,type)
+       (template:instantiate-templated-function solve ,type ,type)
        ',type))
 
   (defmacro define-matrix-type (type)

@@ -10,8 +10,9 @@
            #:mcols)
   (:export #:mref
            #:vref)
+  (:export #:transpose)
   (:export #:m+
            #:v+)
   (:export #:m*)
-  (:export #:transpose)
+  (:export #:solve)
   (:export #:define-matrix-type))

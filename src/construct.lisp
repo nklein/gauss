@@ -11,6 +11,12 @@
   (rf 0 :type (integer 1 *) :read-only t)
   (vals 0 :read-only t))
 
+(defun copy-matrix (m)
+  (check-type m matrix)
+  (%matrix :rows (mrows m) :cols (mcols m)
+           :cf (mcf m) :rf (mrf m)
+           :vals (copy-seq (mvals m))))
+
 (defun mtype (m)
   (check-type m matrix)
   (array-element-type (mvals m)))
