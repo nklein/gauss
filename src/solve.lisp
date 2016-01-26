@@ -21,7 +21,7 @@
               (declare (type (array ,type (*)) vals)
                        (type fixnum mrf mcf))
               (loop :with mrf-a fixnum := (* mrf row-a)
-                    :with mrf-b fixnum := (* mcf row-b)
+                    :with mrf-b fixnum := (* mrf row-b)
                  :for col :below (mcols m)
                  :for a := (+ mrf-a (* mcf col))
                  :for b := (+ mrf-b (* mcf col))
@@ -72,7 +72,7 @@
               (swap-rows-of-vector pivot-row col))
         :do (eliminate-column col))
      (back-substitute)
-     v))
+     (values v m)))
 
 (template:define-templated-function solve (type-m type-v) (m v)
   (let ((new-type-v (contagion-type type-m type-v)))
