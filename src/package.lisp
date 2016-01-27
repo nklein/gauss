@@ -20,6 +20,8 @@
            #:v+
            #:m-
            #:v-)
-  (:export #:m*)
+  (:export #:scale
+           #:m*)
   (:export #:solve)
-  (:export #:define-matrix-type))
+  (:export #:define-matrix-type
+           #:define-mixed-type-matrix-operations))
