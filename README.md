@@ -61,9 +61,9 @@ uses the `DEFINE-MATRIX-TYPE` macro:
 For example, to create functions for `SINGLE-FLOAT` matrices optimized
 for speed, one might:
 
+    (in-package :gauss)
     (locally
         (declare (optimize (speed 3) (safety 1)))
-      (in-package :gauss)
       (define-matrix-type single-float))
 
 ISSUE: There is currently a limitation which requires one to use this
@@ -78,9 +78,9 @@ vector), one needs to define the mixed-type operations with:
 
 For example:
 
+    (in-package :gauss)
     (locally
         (declare (optimize (speed 3) (safety 1)))
-      (in-package :gauss)
       (define-mixed-type-matrix-operations single-float double-float))
 
 ISSUE: There is currently a limitation which requires one to use this
@@ -102,6 +102,27 @@ greater than `safety`.  I recommend that you use the pre-compiled
 settings while coding/debugging and use a `LOCALLY` block as above
 to recompile them with `speed` greater than `safety` once you have the
 kinks worked out.
+
+As an example, the following form will cause an assertion if `speed`
+is less than or equal to `safety` at the time the matrix operations
+are compiled, but will slide through otherwise:
+
+    (gauss:m+ '(single-float single-float)
+              (gauss:make-vector* '(single-float) 1.0)
+              (gauss:make-vector* '(single-float) 2.0 5.0))
+
+When it slides through, it currently creates a 1x1 matrix:
+
+    #<MATRIX
+      3.0>
+
+However, I do not guarantee that any behavior which would `ASSERT`
+when compiled with `speed` less than or equal to `safety` will behave
+consistently across versions or compilers when `speed` is greater than
+`safety`.  In other words, if your code does not work when compiled
+with `speed` less than or equal to `safety`, then you should not be
+relying on the results you obtain when `speed` is greater than
+`safety`.
 
 <a name="create">Creating matrices and vectors</a>
 --------------------------------------------------
