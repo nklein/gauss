@@ -2,17 +2,24 @@
 
 (defpackage #:gauss
   (:use #:cl)
-  (:export #:make-vector
+  (:export #:matrix
+           #:make-vector
            #:make-vector*
            #:make-matrix
            #:make-matrix*)
   (:export #:mrows
-           #:mcols)
+           #:mcols
+           #:mtype)
   (:export #:mref
            #:vref)
   (:export #:transpose)
+  (:export #:square-matrix-p
+           #:commensuratep
+           #:column-vector-p)
   (:export #:m+
-           #:v+)
+           #:v+
+           #:m-
+           #:v-)
   (:export #:m*)
   (:export #:solve)
   (:export #:define-matrix-type))

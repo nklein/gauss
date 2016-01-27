@@ -17,6 +17,8 @@
        (template:instantiate-templated-function transpose ,type)
        (template:instantiate-templated-function m+ ,type ,type)
        (template:instantiate-templated-function v+ ,type ,type)
+       (template:instantiate-templated-function m- ,type ,type)
+       (template:instantiate-templated-function v- ,type ,type)
        (template:instantiate-templated-function m* ,type ,type)
        (template:instantiate-template make-solver ,type ,type)
        ',type))
