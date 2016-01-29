@@ -10,6 +10,7 @@ GAUSS
 * [Transposing a matrix](#transpose)
 * [Adding and multiplying matrices and vectors](#add-mul)
 * [Solving linear equations](#solve)
+* [Shortcuts](#shortcuts)
 
 <a name="overview">Overview</a>
 -------------------------------
@@ -285,6 +286,45 @@ For example:
                                  3.0 4.0))
           (v (gauss:make-vector* '(single-float) 3.0 5.0)))
       (gauss:solve '(single-float single-float) m v))
+
+Which yields:
+
+    #<MATRIX
+      -1.0
+      2.0>
+
+<a name="shortcuts">Shortcuts</a>
+---------------------------------
+
+One can define shortcuts so that one need not include such verbose
+type information.  One creates shortcuts using the
+`DEFINE-MATRIX-OPERATION-SHORTCUTS` macro:
+
+    (defmacro define-matrix-operation-shortcuts (ext-a type-a ext-b type-b)
+       ...)
+
+This will create functions: `MAKE-MATRIX/A`, `MREF/A`, `M+/AB`,
+`M+/BA`, etc. where `A` and `B` are the given extensions.  All
+shortcuts are created in the same package as `EXT-A`.
+
+Note: no shortcuts are made for the functions which do not require a
+list of types.  There is no `MROWS/A` defined, for example.
+
+The `GAUSS` package exports shortcuts for `RATIONAL`, `SINGLE-FLOAT`,
+and `DOUBLE-FLOAT`.
+
+    (define-matrix-operation-shortcuts q rational q rational)
+    (define-matrix-operation-shortcuts s single-float s single-float)
+    (define-matrix-operation-shortcuts d double-float d double-float)
+
+For example, one could abbreviate the code given in the
+[previous section](#solve) as:
+
+    (let ((m (gauss:make-matrix*/s 2 2
+                                   1.0 2.0
+                                   3.0 4.0))
+          (v (gauss:make-vector*/s 3.0 5.0)))
+      (gauss:solve/ss m v))
 
 Which yields:
 
