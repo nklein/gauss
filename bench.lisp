@@ -1,14 +1,22 @@
 (load "gauss.asd")
 (ql:quickload '(:gauss :gauss-test))
 
-(locally
-    (declare (optimize (speed 3) (safety 1)))
-  (in-package :gauss)
-  (gauss:define-matrix-type single-float))
+(asdf:test-system :gauss)
+
+(in-package :gauss)
+
+(locally (declare (optimize (speed 3) (safety 1)))
+  (define-matrix-type single-float))
 
 (in-package :cl-user)
 
-(asdf:test-system :gauss)
+;;; The following form will cause an assertion if the matrix functions
+;;; were compiled with (<= speed safety), but will slide through, at
+;;; the moment, if (> speed safety).
+#+not
+(gauss:m+ '(single-float single-float)
+    (gauss:make-vector* '(single-float) 1.0)
+    (gauss:make-vector* '(single-float) 1.0 2.0))
 
 (template:define-templated-function make-random-matrix (type) (n)
   `(let ((vals (loop :repeat (* n n)
@@ -53,6 +61,13 @@
            :do (gauss:solve '(,type ,type) ,a ,b))))))
 
 (bench-solve single-float 1000)
+
+(let ((a (make-nonsingular-matrix '(single-float) 25))
+      (b (make-random-vector '(single-float) 25)))
+  (time
+   (loop :repeat 1000
+      :do (gauss:solve/ss a b))))
+
 (gauss:solve '(single-float single-float)
              (make-nonsingular-matrix '(single-float) 25)
              (make-random-vector '(single-float) 25))

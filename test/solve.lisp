@@ -68,6 +68,22 @@
       (values (gauss:vref '(single-float) c 0)
               (gauss:vref '(single-float) c 1))))
 
+  (nst:def-test solve-general-matrix (:values (:equal 0.0) (:equal 0.0)
+                                              (:equal 0.5) (:equal 1.0))
+    (let* ((a (gauss:make-matrix* '(single-float)
+                                  2 2
+                                  1.0 2.0
+                                  3.0 4.0))
+           (b (gauss:make-matrix* '(single-float)
+                                  2 2
+                                  1.0 2.0
+                                  2.0 4.0))
+           (c (gauss:solve '(single-float single-float) a b)))
+      (values (gauss:mref '(single-float) c 0 0)
+              (gauss:mref '(single-float) c 0 1)
+              (gauss:mref '(single-float) c 1 0)
+              (gauss:mref '(single-float) c 1 1))))
+
   ;;  [ 1 1 1 1 ] [ 1 ]   [ 10 ]
   ;;  [ 1 1 0 1 ] [ 2 ] = [  7 ]
   ;;  [ 1 0 1 1 ] [ 3 ]   [  8 ]

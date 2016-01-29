@@ -115,21 +115,22 @@ the OTHER-ROW times the OTHER-ROW-FACTOR.  Start with index START."
         (assertion (eql ',type (mtype m)))
         (assertion (eql ',type (mtype v)))
         (assertion (square-matrix-p m))
-        (assertion (commensuratep m v))
-        (assertion (column-vector-p v)))
-     (loop :for row fixnum :from (1- (mrows m)) :downto 0
-        :for pivot ,type := (mref '(,type) m row row)
-        :for val ,type :=  (if (zerop pivot)
-                               pivot
-                               (/ (- (vref '(,type) v row)
-                                     (loop :for c :from (1+ row)
-                                                  :below (mcols m)
-                                        :summing
-                                        (the ,type
-                                             (* (mref '(,type) m row c)
-                                                (vref '(,type) v c)))))
-                                  pivot))
-        :do (set-vref '(,type) val v row))))
+        (assertion (commensuratep m v)))
+     (loop :for col fixnum :below (mcols v)
+        :do (loop :for row fixnum :from (1- (mrows m)) :downto 0
+               :for pivot ,type := (mref '(,type) m row row)
+               :for val ,type :=
+                  (if (zerop pivot)
+                      pivot
+                      (/ (- (mref '(,type) v row col)
+                            (loop :for c :from (1+ row)
+                               :below (mcols m)
+                               :summing
+                               (the ,type
+                                    (* (mref '(,type) m row c)
+                                       (mref '(,type) v c col)))))
+                         pivot))
+               :do (set-mref '(,type) val v row col)))))
 
 (template:define-templated-function solve-by-forward-sub-back-prop
     (type) (m v)
@@ -139,8 +140,7 @@ the OTHER-ROW times the OTHER-ROW-FACTOR.  Start with index START."
         (assertion (eql ',type (mtype m)))
         (assertion (eql ',type (mtype v)))
         (assertion (square-matrix-p m))
-        (assertion (commensuratep m v))
-        (assertion (column-vector-p v)))
+        (assertion (commensuratep m v)))
      (forward-propagation '(,type) m v)
      (back-substitute '(,type) m v)
      v))
@@ -153,8 +153,7 @@ the OTHER-ROW times the OTHER-ROW-FACTOR.  Start with index START."
           (assertion (eql ',type-m (mtype m)))
           (assertion (eql ',type-v (mtype v)))
           (assertion (square-matrix-p m))
-          (assertion (commensuratep m v))
-          (assertion (column-vector-p v)))
+          (assertion (commensuratep m v)))
        (let ((m (copy-matrix m ',new-type-v))
              (v (copy-matrix v ',new-type-v)))
          (values (solve-by-forward-sub-back-prop '(,new-type-v) m v))))))
