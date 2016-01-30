@@ -14,9 +14,9 @@
 ;;; were compiled with (<= speed safety), but will slide through, at
 ;;; the moment, if (> speed safety).
 #+not
-(gauss:m+ '(single-float single-float)
-    (gauss:make-vector* '(single-float) 1.0)
-    (gauss:make-vector* '(single-float) 1.0 2.0))
+(gauss:m+/ss
+    (gauss:make-vector*/s 1.0)
+    (gauss:make-vector*/s 1.0 2.0))
 
 (template:define-templated-function make-random-matrix (type) (n)
   `(let ((vals (loop :repeat (* n n)
@@ -68,6 +68,5 @@
    (loop :repeat 1000
       :do (gauss:solve/ss a b))))
 
-(gauss:solve '(single-float single-float)
-             (make-nonsingular-matrix '(single-float) 25)
-             (make-random-vector '(single-float) 25))
+(gauss:solve/ss (make-nonsingular-matrix '(single-float) 25)
+                (make-random-vector '(single-float) 25))
