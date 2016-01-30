@@ -50,7 +50,7 @@
   :author "Patrick Stein <pat@nklein.com>"
   :version "0.3.20160130"
   :license "UNLICENSE"
-  :depends-on ((:version #:gauss "0.2.20160130")
+  :depends-on ((:version #:gauss "0.3.20160130")
                #:nst)
   :components
   ((:module "test"
