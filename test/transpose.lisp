@@ -20,3 +20,21 @@
               (gauss:mref '(single-float) b 0 1)
               (gauss:mref '(single-float) b 1 0)
               (gauss:mref '(single-float) b 1 1)))))
+
+(nst:def-test-group transpose-shortcut-tests ()
+  (nst:def-test transpose-vector/ss (:values (:equal 1) (:equal 2))
+    (let* ((a (gauss:make-vector*/s 3.0 4.0))
+           (b (gauss:transpose/s a)))
+      (values (gauss:mrows b)
+              (gauss:mcols b))))
+
+  (nst:def-test transpose-two-by-two/ss (:values (:equal 1.0) (:equal 3.0)
+                                                 (:equal 2.0) (:equal 4.0))
+    (let* ((a (gauss:make-matrix*/s 2 2
+                                    1.0 2.0
+                                    3.0 4.0))
+           (b (gauss:transpose/s a)))
+      (values (gauss:mref/s b 0 0)
+              (gauss:mref/s b 0 1)
+              (gauss:mref/s b 1 0)
+              (gauss:mref/s b 1 1)))))
