@@ -3,7 +3,7 @@
 (asdf:defsystem #:gauss
   :description "Yet another matrix library."
   :author "Patrick Stein <pat@nklein.com>"
-  :version "0.2.20160129"
+  :version "0.2.20160130"
   :license "UNLICENSE"
   :depends-on (#:policy-cond #:template)
   :in-order-to ((asdf:test-op (asdf:load-op :gauss-test)))
@@ -48,9 +48,9 @@
 (asdf:defsystem #:gauss-test
   :description "Tests for the GAUSS package."
   :author "Patrick Stein <pat@nklein.com>"
-  :version "0.2.20160129"
+  :version "0.2.20160130"
   :license "UNLICENSE"
-  :depends-on ((:version #:gauss "0.2.20160129")
+  :depends-on ((:version #:gauss "0.2.20160130")
                #:nst)
   :components
   ((:module "test"
